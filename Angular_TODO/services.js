@@ -1,26 +1,34 @@
 angular.module('todo').factory('todoStorage', function(){
     var storage = {
-        //todo ...
+        //todo ... 
         todos : [
-        {
-            title: 'Algorithm Study',
-            completed: true,
-            createdAt:Date.now()
+        // {
+        //     title: 'Algorithm Study',
+        //     completed: true,
+        //     createdAt:Date.now()
+        // },
+        // {
+        //     title: 'Angular Study',
+        //     completed: false,
+        //     createdAt:Date.now()
+        // },
+        // {
+        //     title: 'NodeJs Study',
+        //     completed: false,
+        //     createdAt:Date.now()
+        // }
+    ],
+        _saveToLocalStorage: function(data){
+            //localStorage에는 string으로만 저장되기 떄문에 객체화된 data를 JSON에서 stringfy한다.
+            localStorage.setItem('TODO_DATA', JSON.stringify(data))
         },
-        {
-            title: 'Angular Study',
-            completed: false,
-            createdAt:Date.now()
+        _getFromLocalStorage: function(){
+            return JSON.parse(localStorage.getItem('TODO_DATA')) || [];
         },
-        {
-            title: 'NodeJs Study',
-            completed: false,
-            createdAt:Date.now()
-        }
-    
-        ],
- 
+
         get : function(){
+            //storage.todos = storage._getFromLocalStorage()을 사용하면 X. copy를 사용할 것 
+            angular.copy(storage._getFromLocalStorage, storage.todos) // LocalStoarge에 있는 data를 todos에 가져오게하기 
             return storage.todos;
         },
 
@@ -31,6 +39,7 @@ angular.module('todo').factory('todoStorage', function(){
             if(idx>-1){
                 storage.todos.splice(idx, 1)
             }
+            storage._saveToLocalStorage(storage.todos);
         },
 
         add : function(newTodoTitle){
@@ -43,6 +52,7 @@ angular.module('todo').factory('todoStorage', function(){
         
             //push into todos
             storage.todos.push(newTodo);
+            storage._saveToLocalStorage(storage.todos);
         }
     }
     
