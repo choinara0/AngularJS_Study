@@ -14,5 +14,10 @@ angular.module('todo').controller('TodoCtrl',function ($scope, todoStorage){ //C
         todoStorage.add(newTodoTitle);
             //empty form
         $scope.newTodoTitle = "";
-    }
+    };
+
+    $scope.update = function(){
+        todoStorage.update();
+    };
+
 }); 
