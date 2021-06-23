@@ -19,7 +19,7 @@ angular.module('todo').factory('todoStorage', function(){
         }
     
         ],
-
+ 
         get : function(){
             return storage.todos;
         }
